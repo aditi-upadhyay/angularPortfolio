@@ -1,0 +1,44 @@
+<div class="contact-container">
+
+  <!-- Left: Text & Pill -->
+  <div class="text-section">
+    <h1 class="main-title">
+      Let's Craft
+      <span class="magic-text">Magic!</span>
+    </h1>
+
+    <p class="subtitle">
+      Reach out for collaborations, 3D tips, or just to say hello!
+    </p>
+
+    <div class="email-pill">
+      <div class="icon-circle">
+        <span class="material-symbols-outlined">mail</span>
+      </div>
+      <span class="email-text">hello@aditi.world</span>
+    </div>
+  </div>
+
+  <!-- Right: Form Card -->
+  <div class="form-section">
+    <div class="contact-card">
+      <form class="contact-form" (ngSubmit)="sendEmail()">
+
+        <div class="input-row">
+          <input type="text" placeholder="Name" class="form-input" [(ngModel)]="form.name" name="name">
+
+          <input type="email" placeholder="Email" class="form-input" [(ngModel)]="form.email" name="email">
+        </div>
+
+        <textarea placeholder="Your idea..." class="form-textarea" [(ngModel)]="form.message" name="message"
+          rows="5"></textarea>
+
+        <button type="submit" class="submit-btn">
+          Send Message
+          <span class="material-symbols-outlined sparkles">auto_awesome</span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+</div>
