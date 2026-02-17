@@ -1,0 +1,594 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Quicksand:wght@400;500;700&display=swap');
+
+// Color Palette
+$primary-coral: #ff8b7b;
+$primary-dark: #2c3e50;
+$text-dark: #1a1a2e;
+$text-light: #6b7280;
+$bg-light: #fff5f3;
+$teal-primary: #4dd5d5;
+$teal-dark: #1a4d4d;
+$mint: #a8e6cf;
+$periwinkle: #a29bfe;
+$yellow: #ffd93d;
+
+// Reset & Base
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  
+}
+body {
+  overflow-x: hidden;
+  background: none
+  // linear-gradient(135deg, #fff5f3 0%, #ffe8e8 100%);
+}
+
+
+.hero-container {
+  min-height: 100vh;
+  width: 100%;
+  // background: linear-gradient(135deg, $bg-light 0%, #ffe8e8 100%);
+  font-family: 'Quicksand', sans-serif;
+  padding: 0;
+  margin: 0;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+// Header Styles
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2rem 6rem;
+  flex-shrink: 0;
+
+  @media (max-width: 768px) {
+    padding: 1.5rem 2rem;
+  }
+}
+
+.logo-section {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, $primary-coral 0%, #ff6b6b 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 700;
+  font-size: 1.1rem;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 12px rgba(255, 139, 123, 0.3);
+}
+
+.name {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: $text-dark;
+  letter-spacing: -0.5px;
+}
+
+// Navigation
+.navigation {
+  display: flex;
+  gap: 2.5rem;
+
+  @media (max-width: 768px) {
+    gap: 1.5rem;
+  }
+}
+
+.nav-link {
+  color: $text-light;
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 500;
+  position: relative;
+  transition: all 0.3s ease;
+  
+  &.active {
+    color: $text-dark;
+    font-weight: 600;
+  }
+
+  &:hover {
+    color: $primary-coral;
+    transform: translateY(-2px);
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: $primary-coral;
+    transition: width 0.3s ease;
+  }
+
+  &:hover::after,
+  &.active::after {
+    width: 100%;
+  }
+}
+
+// Hero Content
+.hero-content {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 4rem;
+  align-items: center;
+  flex: 1;
+  padding: 0 6rem 2rem;
+  max-width: 100%;
+
+  @media (max-width: 968px) {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    padding: 0 2rem 2rem;
+  }
+}
+
+.text-content {
+  animation: fadeInUp 0.8s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.subtitle {
+  color: $primary-coral;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  margin-bottom: 1.5rem;
+  text-transform: uppercase;
+}
+
+.main-heading {
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(3rem, 8vw, 5.5rem);
+  font-weight: 900;
+  color: $text-dark;
+  line-height: 0.9;
+  margin-bottom: 1.5rem;
+  letter-spacing: -2px;
+
+  .highlight {
+    color: $primary-coral;
+    display: inline-block;
+    animation: colorPulse 3s ease-in-out infinite;
+  }
+}
+
+@keyframes colorPulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.85;
+  }
+}
+
+.description {
+  font-size: 1.15rem;
+  color: $text-light;
+  line-height: 1.6;
+  margin-bottom: 2.5rem;
+  max-width: 500px;
+
+  .interactive-text {
+    color: $teal-primary;
+    font-weight: 600;
+    position: relative;
+    
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, $teal-primary 0%, transparent 100%);
+    }
+  }
+}
+
+// CTA Button
+.cta-button {
+  background: linear-gradient(135deg, $primary-coral 0%, #ff6b6b 100%);
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  box-shadow: 0 8px 24px rgba(255, 139, 123, 0.4);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.5s ease;
+  }
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 32px rgba(255, 139, 123, 0.5);
+
+    &::before {
+      left: 100%;
+    }
+  }
+
+  &:active {
+    transform: translateY(-1px);
+  }
+
+  .star-icon {
+    animation: rotate 4s linear infinite;
+  }
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// Visual Content
+.visual-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 1s ease-out 0.3s backwards;
+
+  img {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+// ==========================================
+// ACADEMIC ROOTS SECTION
+// ==========================================
+
+.academic-section {
+  position: relative;
+  min-height: 100vh;
+  // background: linear-gradient(135deg, #fff5f3 0%, #ffe8e8 100%);
+  padding: 0rem 4rem;
+  font-family: 'Quicksand', sans-serif;
+  overflow: hidden;
+
+  @media (max-width: 968px) {
+    padding: 6rem 2rem;
+  }
+}
+
+// Sticky Avatar
+.sticky-avatar {
+  position: fixed;
+  --avatar-size: 500px; /* Default initial size */
+  width: var(--avatar-size);
+  height: var(--avatar-size);
+  
+  /* 
+     Positioning strategy: Always use 'top' for vertical position to allow smooth transition.
+     Initial: Centered vertically (50% - half height).
+     Scrolled: At bottom (100vh - 2rem - height).
+  */
+  top: calc(50% - (var(--avatar-size) / 2));
+  right: 10%;
+  
+  z-index: 90;
+  pointer-events: none;
+  
+  /* Transition top, right, and size smoothly */
+  transition: 
+    top 0.6s cubic-bezier(0.25, 1, 0.5, 1),
+    right 0.6s cubic-bezier(0.25, 1, 0.5, 1),
+    width 0.1s linear, /* Size updates are frequent via JS, keep snappy or let JS handle strictly */
+    height 0.1s linear;
+
+  &.scrolled {
+    /* Calculate top position to be 2rem from bottom */
+    top: calc(100vh - 2rem - var(--avatar-size));
+    right: 2rem;
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.1));
+    animation: floatAvatar 6s ease-in-out infinite;
+  }
+
+  @media (max-width: 968px) {
+    display: none;
+  }
+}
+
+@keyframes floatAvatar {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-15px); }
+}
+
+.avatar-bubble {
+  position: absolute;
+  top: 20%; /* Position relative to avatar container */
+  left: -20px; /* Pop out to the left */
+  transform: translateX(-100%);
+  
+  background: white;
+  padding: 0.8rem 1.5rem;
+  border-radius: 20px 20px 0 20px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  font-weight: 800;
+  white-space: nowrap;
+  opacity: 0; /* Hidden initially */
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  pointer-events: auto; /* Clickable if needed */
+  font-size: 0.95rem;
+  color: #1a1a2e;
+  border: 1px solid rgba(0,0,0,0.05);
+}
+
+// Show bubble when scrolled
+.sticky-avatar.scrolled .avatar-bubble {
+  opacity: 1;
+}
+
+
+// Desk Surface
+.desk-surface {
+  perspective: 1500px;
+  // background: radial-gradient(circle at center, rgba(255, 255, 255, 0.8) 0%, rgba(243, 240, 255, 0.4) 100%);
+  border-radius: 4rem;
+  padding: 2rem 4rem 0rem;
+  min-height: 700px;
+  position: relative;
+
+  @media (max-width: 968px) {
+    padding: 2rem;
+    min-height: 500px;
+  }
+}
+
+.polaroid-container {
+  position: relative;
+  height: 700px;
+  width: 100%;
+
+  @media (max-width: 968px) {
+    height: 900px;
+  }
+}
+
+// Float/Shake Animation
+@keyframes floatPolaroid {
+  0% {
+    transform: translate(0, 0) rotate(var(--rot));
+  }
+  50% {
+    transform: translate(10px, -15px) rotate(calc(var(--rot) + 2deg));
+  }
+  100% {
+    transform: translate(0, 0) rotate(var(--rot));
+  }
+}
+
+// Polaroid Card
+.polaroid-card {
+  position: absolute;
+  width: 280px;
+  background: white;
+  padding: 1rem 1rem 3rem 1rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94); // Smoother, longer transition
+  transform-style: preserve-3d;
+  cursor: pointer;
+  border: 1px solid #f0f0f0;
+  animation: floatPolaroid var(--dur) infinite ease-in-out;
+  top: var(--y);
+  left: var(--x);
+  transform: rotate(var(--rot));
+
+  &:hover {
+    animation-play-state: paused;
+    transform: rotate(0deg) scale(1.08) translateY(-30px) !important; // Gentler scale and lift
+    z-index: 100 !important;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.12); // Softer shadow increase
+  }
+
+  @media (max-width: 968px) {
+    width: 240px;
+  }
+}
+
+.polaroid-image {
+  width: 100%;
+  aspect-ratio: 1/1;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  border-radius: 4px;
+
+  .icon {
+    font-size: 4rem;
+    transition: transform 0.3s ease;
+  }
+
+  &.mint-bg {
+    background: rgba($mint, 0.1);
+  }
+
+  &.periwinkle-bg {
+    background: rgba($periwinkle, 0.1);
+  }
+
+  &.coral-bg {
+    background: rgba($primary-coral, 0.1);
+  }
+
+  &.yellow-bg {
+    background: rgba($yellow, 0.1);
+  }
+
+  &.gray-bg {
+    background: rgba(#e0e0e0, 0.3);
+  }
+}
+
+.polaroid-reveal {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: white;
+  padding: 1.5rem;
+  opacity: 0;
+  transition: opacity 0.6s ease; // Increased from 0.4s for smoother fade
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  pointer-events: none;
+
+  h3 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 900;
+    color: $text-dark;
+    margin-bottom: 0.5rem;
+  }
+
+  p {
+    font-size: 0.85rem;
+    color: $text-light;
+    font-weight: 500;
+    line-height: 1.4;
+  }
+}
+
+.polaroid-card:hover .polaroid-reveal {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.polaroid-card:hover .icon {
+  transform: scale(0);
+  transition: transform 0.5s ease; // Smoother icon disappearance
+}
+
+.year-badge {
+  display: inline-block;
+  font-size: 0.65rem;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  margin-bottom: 0.75rem;
+
+  &.mint {
+    background: rgba($mint, 0.2);
+    color: darken($mint, 30%);
+  }
+
+  &.periwinkle {
+    background: rgba($periwinkle, 0.2);
+    color: darken($periwinkle, 20%);
+  }
+
+  &.coral {
+    background: rgba($primary-coral, 0.2);
+    color: darken($primary-coral, 20%);
+  }
+
+  &.yellow {
+    background: rgba($yellow, 0.3);
+    color: darken($yellow, 35%);
+  }
+
+  &.gray {
+    background: rgba(#e0e0e0, 0.5);
+    color: #666;
+  }
+}
+
+.polaroid-caption {
+  text-align: center;
+  padding-top: 1rem;
+  font-weight: 700;
+  color: $text-light;
+  font-size: 0.9rem;
+}
+
+// Responsive adjustments
+@media (max-width: 968px) {
+  .visual-content {
+    order: -1;
+  }
+}
+
+@media (max-width: 480px) {
+  .navigation {
+    display: none;
+  }
+
+  .hero-container {
+    padding: 1rem 1.5rem;
+  }
+
+  .polaroid-card {
+    width: 200px;
+  }
+}

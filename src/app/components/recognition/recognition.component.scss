@@ -1,0 +1,207 @@
+.hall-of-fame-container {
+  background-color: #fff9f9; // Soft pink/beige background
+  // min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 1rem;
+  font-family: 'Inter', sans-serif;
+}
+
+/* --- Header Section --- */
+.header-section {
+  text-align: center;
+  margin-bottom: 3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.party-popper {
+  margin-bottom: 1rem;
+  
+  .icon {
+    font-size: 3rem;
+    color: #facc15; // Yellow-400
+    transform: rotate(-15deg);
+    display: block;
+    // Simple bounce animation
+    animation: pop 2s infinite ease-in-out;
+  }
+}
+
+.main-title {
+  font-size: 3rem;
+  font-weight: 900;
+  color: #1e293b; // Slate-900
+  margin: 0 0 0.5rem 0;
+  letter-spacing: -0.02em;
+}
+
+.subtitle {
+  font-size: 1rem;
+  color: #64748b; // Slate-500
+  font-style: italic;
+  font-weight: 500;
+}
+
+/* --- Card Section --- */
+.award-card {
+  background: white;
+  border-radius: 32px;
+  padding: 1.5rem; // Compact padding wrapper
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.08); // Soft shadow
+  max-width: 47%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+  
+  // Transition for hover effect (optional)
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 35px 60px -15px rgba(0, 0, 0, 0.12);
+  }
+
+  @media (min-width: 768px) {
+    padding: 3rem 4rem; // More breathing room on desktop
+  }
+}
+
+/* Left: Icon */
+.icon-section {
+  flex-shrink: 0;
+}
+
+.trophy-box {
+  width: 140px;
+  height: 140px;
+  background-color: #fef9c3; // Yellow-100
+  border-radius: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .trophy-icon {
+    font-size: 5rem;
+    color: #eab308; // Yellow-500
+    font-variation-settings: 'FILL' 1; // Filled icon
+  }
+}
+
+/* Right: Content */
+.content-section {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.meta-badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #eab308; // Slate-600
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.75rem;
+}
+
+.award-title {
+  font-size: 1.7rem;
+  // font-weight: 800;
+  color: #0f172a; // Slate-900
+  margin: 0 0 1rem 0;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+
+.award-description {
+  font-size: 1.125rem;
+  color: #475569; // Slate-600
+  line-height: 1.6;
+  margin: 0;
+  max-width: 400px; // Prevent lines from getting too long
+  
+  .highlight {
+    font-weight: 700;
+    color: #334155; // Darker slate
+  }
+}
+
+.celebrate-btn {
+  background: linear-gradient(135deg, #facc15 0%, #eab308 100%); // Yellow gradient
+  color: #713f12; // Dark yellow/brown text
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 50px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+  box-shadow: 0 10px 15px -3px rgba(234, 179, 8, 0.3);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  &:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 20px 25px -5px rgba(234, 179, 8, 0.4);
+    filter: brightness(1.05);
+  }
+  
+  &:active {
+    transform: translateY(0) scale(0.98);
+  }
+  
+  span {
+    font-size: 1.5rem;
+  }
+}
+
+/* --- Responsive Layout --- */
+@media (max-width: 768px) {
+  .header-section {
+    margin-bottom: 2rem;
+  }
+
+  .main-title {
+    font-size: 2.25rem;
+  }
+
+  .award-card {
+    flex-direction: column;
+    text-align: center;
+    padding: 2.5rem 1.5rem;
+    gap: 2rem;
+  }
+
+  .content-section {
+    align-items: center;
+    text-align: center;
+  }
+  
+  .trophy-box {
+    width: 100px;
+    height: 100px;
+    
+    .trophy-icon {
+      font-size: 3.5rem;
+    }
+  }
+
+  .award-title {
+    font-size: 1.75rem;
+  }
+  
+  .award-description {
+    font-size: 1rem;
+  }
+}
+
+/* --- Animation --- */
+@keyframes pop {
+  0%, 100% { transform: rotate(-15deg) scale(1); }
+  50% { transform: rotate(-5deg) scale(1.1); }
+}

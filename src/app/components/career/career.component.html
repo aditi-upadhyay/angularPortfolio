@@ -1,0 +1,108 @@
+<div class="section-header">
+  <h2>The Zig-Zag Path</h2>
+  <p>Scattered snapshots of my learning journey.</p>
+</div>
+
+<section class="timeline">
+
+  <svg class="zigzag-line" viewBox="0 0 100 100" preserveAspectRatio="none">
+    <defs>
+      <linearGradient id="lineGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" stop-color="#ff9a9e" /> <!-- Soft Pink -->
+        <stop offset="50%" stop-color="#fecfef" /> <!-- Light Pink -->
+        <stop offset="100%" stop-color="#ff9a9e" /> <!-- Soft Pink -->
+      </linearGradient>
+      <!-- Reduced glow for sharper look -->
+      <filter id="glow">
+        <feGaussianBlur stdDeviation="1" result="coloredBlur" />
+        <feMerge>
+          <feMergeNode in="coloredBlur" />
+          <feMergeNode in="SourceGraphic" />
+        </feMerge>
+      </filter>
+    </defs>
+
+    <path id="timelinePath" d="" fill="none" stroke="url(#lineGradient)" stroke-width="2" stroke-linecap="round"
+      stroke-linejoin="round" filter="url(#glow)" />
+  </svg>
+
+  <div class="timeline-item" *ngFor="let item of timeline; let i = index" [class.right]="i % 2 !== 0">
+
+    <!-- Redesigned Career Card -->
+    <div class="card" (click)="openModal(item)">
+
+      <!-- Header: Date Pill -->
+      <div class="card-header">
+        <span class="date-pill">{{ item.year }}</span>
+      </div>
+
+      <!-- Body: Title & Company -->
+      <div class="card-body">
+        <h3>{{ item.title }}</h3>
+        <p class="company">{{ item.company }}</p>
+
+        <p class="description">
+          {{ item.description }}
+        </p>
+      </div>
+
+      <!-- Footer: Action -->
+      <div class="card-footer">
+        <button class="know-more-btn">
+          Know More
+          <span class="material-symbols-outlined arrow-icon">arrow_forward</span>
+        </button>
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- Modal Overlay -->
+<div class="modal-overlay" *ngIf="selectedJob" (click)="closeModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <button class="close-btn" (click)="closeModal()">
+      <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+
+    <div class="modal-body">
+      <!-- Left: Visuals -->
+      <div class="modal-left">
+        <div class="image-gallery">
+          <img *ngFor="let img of selectedJob.images" [src]="img" alt="Project Preview" class="project-img">
+        </div>
+      </div>
+
+      <!-- Right: Details -->
+      <div class="modal-right">
+        <span class="modal-company">{{ selectedJob.company }}</span>
+        <h2 class="modal-title">{{ selectedJob.title }}</h2>
+
+        <div class="modal-section" *ngIf="selectedJob.responsibilities?.length">
+          <h3>Responsibilities</h3>
+          <ul class="responsibility-list">
+            <li *ngFor="let item of selectedJob.responsibilities">{{ item }}</li>
+          </ul>
+        </div>
+
+        <div class="modal-section" *ngIf="selectedJob.techStack?.length">
+          <h3>Tech Stack</h3>
+          <div class="tech-pills">
+            <span class="pill" *ngFor="let tech of selectedJob.techStack">{{ tech }}</span>
+          </div>
+        </div>
+
+        <!-- <a *ngIf="selectedJob.caseStudyUrl" [href]="selectedJob.caseStudyUrl" class="btn-case-study">
+          View Case Study
+          <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="arrow-icon">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+          </svg>
+        </a> -->
+      </div>
+    </div>
+  </div>
+</div>

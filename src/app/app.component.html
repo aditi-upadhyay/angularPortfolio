@@ -1,0 +1,119 @@
+<!-- Sticky Avatar (Global) -->
+<div class="sticky-avatar" id="stickyAvatar">
+  <img src="assets/avatar/img.png" alt="Aditi 3D Avatar">
+  <div class="avatar-bubble" id="avatarBubble">{{comment}}</div>
+</div>
+
+<div class="hero-container">
+  <!-- Header -->
+  <header class="header">
+    <div class="logo-section">
+      <div class="avatar">AU</div>
+      <span class="name">Aditi Upadhyay</span>
+    </div>
+    <nav class="navigation">
+      <a href="#" class="nav-link active">Home</a>
+      <a href="#" class="nav-link">Roots</a>
+      <a href="#" class="nav-link">Journey</a>
+      <a href="#" class="nav-link">Tools</a>
+      <a href="#" class="nav-link">Builds</a>
+    </nav>
+  </header>
+
+  <!-- Main Hero Section -->
+  <section class="hero-content">
+    <div class="text-content">
+      <!-- <p class="subtitle">3D MAGICIAN & DEVELOPER</p> -->
+      <h1 class="main-heading">
+        Hi, I'm<br>
+        <span class="highlight">Aditi Upadhyay</span>
+      </h1>
+      <p class="description">
+        I build full-stack apps with Angular, React, and Electron, and I make
+        <span class="interactive-text">3D visualization feel less “technical” and more “wow.” </span>
+        Passionate about creating scalable, high-performance tools that solve real-world problems —
+        and maybe make them a little more fun too.
+        <!-- <span class="interactive-text">interactive 3D worlds</span> that pop and sparkle. -->
+      </p>
+      <button class="cta-button" (click)="downloadResume()">
+        Download Resume
+        <svg class="star-icon" width="20" height="20" viewBox="0 0 24 24" fill="none"
+          xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"
+            fill="currentColor" />
+        </svg>
+      </button>
+    </div>
+
+    <div class="visual-content">
+      <img src="assets/avatar/img.png" alt="Aditi">
+    </div>
+  </section>
+</div>
+
+<app-academic></app-academic>
+
+<!-- Academic Roots Section -->
+<!-- <section class="academic-section" id="academic">
+
+  <div class="academic-container">
+    <div class="section-header">
+      <h2>Academic Roots</h2>
+      <p>Scattered snapshots of my learning journey.</p>
+    </div>
+
+    <div class="desk-surface">
+      <div class="polaroid-container">
+        <div class="polaroid-card" style="--rot: -8deg; --x: 5%; --y: 10%; --dur: 4s;">
+          <div class="polaroid-image mint-bg">
+            <span class="icon">🎓</span>
+            <div class="polaroid-reveal">
+              <span class="year-badge mint">2023 - 2025</span>
+              <h3>Master's in CS</h3>
+              <p>Advanced graphics, VR interaction, and real-time rendering magic.</p>
+            </div>
+          </div>
+          <div class="polaroid-caption">Specializing ✨</div>
+        </div>
+
+        <div class="polaroid-card" style="--rot: 5deg; --x: 40%; --y: 15%; --dur: 5s;">
+          <div class="polaroid-image periwinkle-bg">
+            <span class="icon">📚</span>
+            <div class="polaroid-reveal">
+              <span class="year-badge periwinkle">2019 - 2023</span>
+              <h3>Bachelor's Eng.</h3>
+              <p>Software engineering meets creativity. The playground where it all began.</p>
+            </div>
+          </div>
+          <div class="polaroid-caption">Foundations 🛠️</div>
+        </div>
+
+        <div class="polaroid-card" style="--rot: -12deg; --x: 70%; --y: 20%; --dur: 4.5s;">
+          <div class="polaroid-image coral-bg">
+            <span class="icon">📖</span>
+            <div class="polaroid-reveal">
+              <span class="year-badge coral">THE START</span>
+              <h3>Early Roots</h3>
+              <p>Mathematics, logic, and a deep curiosity for virtual worlds.</p>
+            </div>
+          </div>
+          <div class="polaroid-caption">Curiosity 💡</div>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+</section> -->
+
+<!-- Tech Stack / 3D Stage -->
+<app-tech-stack></app-tech-stack>
+
+<!-- Carrer path -->
+<app-career></app-career>
+
+<!-- Include this in your parent component template -->
+<app-recognition></app-recognition>
+
+<!-- Contact Section -->
+<app-contact></app-contact>
