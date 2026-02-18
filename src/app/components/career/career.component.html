@@ -1,64 +1,66 @@
-<div class="section-header">
-  <h2>The Zig-Zag Path</h2>
-  <p>Scattered snapshots of my learning journey.</p>
-</div>
+<div id="journey">
+  <div class="section-header">
+    <h2>The Zig-Zag Path</h2>
+    <p>Scattered snapshots of my learning journey.</p>
+  </div>
 
-<section class="timeline">
+  <section class="timeline">
 
-  <svg class="zigzag-line" viewBox="0 0 100 100" preserveAspectRatio="none">
-    <defs>
-      <linearGradient id="lineGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-        <stop offset="0%" stop-color="#ff9a9e" /> <!-- Soft Pink -->
-        <stop offset="50%" stop-color="#fecfef" /> <!-- Light Pink -->
-        <stop offset="100%" stop-color="#ff9a9e" /> <!-- Soft Pink -->
-      </linearGradient>
-      <!-- Reduced glow for sharper look -->
-      <filter id="glow">
-        <feGaussianBlur stdDeviation="1" result="coloredBlur" />
-        <feMerge>
-          <feMergeNode in="coloredBlur" />
-          <feMergeNode in="SourceGraphic" />
-        </feMerge>
-      </filter>
-    </defs>
+    <svg class="zigzag-line" viewBox="0 0 100 100" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id="lineGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#ff9a9e" /> <!-- Soft Pink -->
+          <stop offset="50%" stop-color="#fecfef" /> <!-- Light Pink -->
+          <stop offset="100%" stop-color="#ff9a9e" /> <!-- Soft Pink -->
+        </linearGradient>
+        <!-- Reduced glow for sharper look -->
+        <filter id="glow">
+          <feGaussianBlur stdDeviation="1" result="coloredBlur" />
+          <feMerge>
+            <feMergeNode in="coloredBlur" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+      </defs>
 
-    <path id="timelinePath" d="" fill="none" stroke="url(#lineGradient)" stroke-width="2" stroke-linecap="round"
-      stroke-linejoin="round" filter="url(#glow)" />
-  </svg>
+      <path id="timelinePath" d="" fill="none" stroke="url(#lineGradient)" stroke-width="2" stroke-linecap="round"
+        stroke-linejoin="round" filter="url(#glow)" />
+    </svg>
 
-  <div class="timeline-item" *ngFor="let item of timeline; let i = index" [class.right]="i % 2 !== 0">
+    <div class="timeline-item" *ngFor="let item of timeline; let i = index" [class.right]="i % 2 !== 0">
 
-    <!-- Redesigned Career Card -->
-    <div class="card" (click)="openModal(item)">
+      <!-- Redesigned Career Card -->
+      <div class="card" (click)="openModal(item)">
 
-      <!-- Header: Date Pill -->
-      <div class="card-header">
-        <span class="date-pill">{{ item.year }}</span>
-      </div>
+        <!-- Header: Date Pill -->
+        <div class="card-header">
+          <span class="date-pill">{{ item.year }}</span>
+        </div>
 
-      <!-- Body: Title & Company -->
-      <div class="card-body">
-        <h3>{{ item.title }}</h3>
-        <p class="company">{{ item.company }}</p>
+        <!-- Body: Title & Company -->
+        <div class="card-body">
+          <h3>{{ item.title }}</h3>
+          <p class="company">{{ item.company }}</p>
 
-        <p class="description">
-          {{ item.description }}
-        </p>
-      </div>
+          <p class="description">
+            {{ item.description }}
+          </p>
+        </div>
 
-      <!-- Footer: Action -->
-      <div class="card-footer">
-        <button class="know-more-btn">
-          Know More
-          <span class="material-symbols-outlined arrow-icon">arrow_forward</span>
-        </button>
+        <!-- Footer: Action -->
+        <div class="card-footer">
+          <button class="know-more-btn">
+            Know More
+            <span class="material-symbols-outlined arrow-icon">arrow_forward</span>
+          </button>
+        </div>
+
       </div>
 
     </div>
 
-  </div>
-
-</section>
+  </section>
+</div>
 
 <!-- Modal Overlay -->
 <div class="modal-overlay" *ngIf="selectedJob" (click)="closeModal()">

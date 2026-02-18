@@ -1,13 +1,15 @@
-import { Component, AfterViewInit, OnInit } from '@angular/core';
+import { Component, AfterViewInit, OnInit, OnDestroy } from '@angular/core';
 
 @Component({
   selector: 'app-career',
   templateUrl: './career.component.html',
   styleUrls: ['./career.component.scss']
 })
-export class CareerComponent implements AfterViewInit {
+export class CareerComponent implements AfterViewInit, OnDestroy {
 
   selectedJob: any = null;
+  private resizeHandler!: () => void;
+  private scrollHandler!: () => void;
 
   timeline = [
     {
@@ -74,6 +76,7 @@ export class CareerComponent implements AfterViewInit {
   ngOnInit() {
     console.log("ngOnInit");
   }
+
   // Store scroll position to restore it later
   private scrollY = 0;
 
@@ -106,114 +109,128 @@ export class CareerComponent implements AfterViewInit {
     window.scrollTo(0, this.scrollY);
   }
 
-
   ngAfterViewInit() {
     console.log("ngAfterViewInit");
-    const el = document.getElementById("timelinePath");
 
+    // ✅ FIX 1: Defer path generation until after the browser has finished layout.
+    // ngAfterViewInit fires before the first paint, so getBoundingClientRect()
+    // can return 0 or wrong values. setTimeout + requestAnimationFrame ensures
+    // we wait until the browser has fully rendered and laid out all elements.
+    setTimeout(() => {
+      requestAnimationFrame(() => {
+        this.drawPath();
+      });
+    }, 0);
+
+    // ✅ FIX 3: Recalculate path on window resize so the line stays aligned.
+    this.resizeHandler = () => {
+      requestAnimationFrame(() => this.drawPath());
+    };
+    window.addEventListener('resize', this.resizeHandler);
+  }
+
+  ngOnDestroy() {
+    // Clean up event listeners to prevent memory leaks
+    if (this.resizeHandler) {
+      window.removeEventListener('resize', this.resizeHandler);
+    }
+    if (this.scrollHandler) {
+      window.removeEventListener('scroll', this.scrollHandler);
+    }
+  }
+
+  /* ===========================
+     DRAW PATH (reusable)
+  =========================== */
+  drawPath() {
+    const el = document.getElementById('timelinePath');
     if (!(el instanceof SVGGeometryElement)) return;
 
     const path = el;
-    const section = document.querySelector(".timeline");
+    const timelineEl = document.querySelector('.timeline') as HTMLElement;
+    if (!timelineEl) return;
 
-    if (!section) return;
-
-    /* ===========================
-       ✅ GENERATE DYNAMIC PATH
-    =========================== */
-
-    const d = this.generatePath(this.timeline.length);
-    path.setAttribute("d", d);
-
-    // resize svg to match content
-    //   const svg = path.ownerSVGElement;
-    // if (svg && section) {
-    //   svg.setAttribute("height", `${section.scrollHeight}`);
-    // }
-
+    // Update SVG height to match the actual rendered content height
     const svg = path.ownerSVGElement;
-    // if (svg && this.timeline) {
-    //   svg.setAttribute("height", `${this.timeline.scrollHeight}`);
-    // }
-    const timelineEl = document.querySelector(".timeline") as HTMLElement;
-
-    if (svg && timelineEl) {
-      svg.setAttribute("height", `${timelineEl.scrollHeight}`);
+    if (svg) {
+      svg.setAttribute('height', `${timelineEl.scrollHeight}`);
     }
 
+    // ✅ FIX 2: Guard against zero-height container (layout not ready)
+    const d = this.generatePath(this.timeline.length);
+    if (!d) return;
+
+    path.setAttribute('d', d);
 
     /* ===========================
        SCROLL ANIMATION
     =========================== */
-
     const length = path.getTotalLength();
-
     path.style.strokeDasharray = `${length}`;
     path.style.strokeDashoffset = `${length}`;
 
-    const updateLine = () => {
-      const rect = section.getBoundingClientRect();
+    // Remove previous scroll listener before adding a new one (important on resize)
+    if (this.scrollHandler) {
+      window.removeEventListener('scroll', this.scrollHandler);
+    }
+
+    this.scrollHandler = () => {
+      const rect = timelineEl.getBoundingClientRect();
       const windowHeight = window.innerHeight;
-
-      const progress = Math.min(
-        1,
-        Math.max(0, (windowHeight - rect.top) / rect.height)
-      );
-
+      const progress = Math.min(1, Math.max(0, (windowHeight - rect.top) / rect.height));
       path.style.strokeDashoffset = `${length * (1 - progress)}`;
     };
 
-    window.addEventListener("scroll", updateLine);
-    updateLine();
+    window.addEventListener('scroll', this.scrollHandler);
+    this.scrollHandler(); // Run once immediately to set initial state
   }
 
+  /* ===========================
+     GENERATE DYNAMIC PATH
+  =========================== */
   generatePath(count: number) {
-    const cards = document.querySelectorAll(".card");
-    const container = document.querySelector(".timeline");
+    // ✅ Scope to .timeline .card to avoid picking up cards from other components
+    const container = document.querySelector('.timeline') as HTMLElement;
+    if (!container) return '';
 
-    if (!cards.length || !container) return "";
+    const cards = container.querySelectorAll('.card');
+    if (!cards.length) return '';
 
-    const containerRect = container.getBoundingClientRect();
+    const containerHeight = container.scrollHeight;
 
-    // SVG coordinate space: X is 0-100. Y is proportional to height.
-    // We want the line to go from center -> left vertex -> right vertex -> left vertex...
+    // ✅ Guard — if height is 0, layout isn't ready yet
+    if (containerHeight === 0) return '';
 
+    // SVG coordinate space: X is 0–100, Y is 0–100 (percentage of container scrollHeight).
+    // Use offsetTop (layout-relative, scroll-independent) instead of getBoundingClientRect()
+    // to get stable positions that don't change as the user scrolls.
     const startX = 50;
     let d = `M ${startX} 0`;
 
-    let lastX = startX;
-    let lastY = 0;
-
     cards.forEach((card, i) => {
-      const rect = card.getBoundingClientRect();
-      const relativeTop = rect.top - containerRect.top;
-      const relativeHeight = rect.height;
+      const cardEl = card as HTMLElement;
+      // Walk up to find the .timeline-item parent, then use its offsetTop
+      const timelineItem = cardEl.closest('.timeline-item') as HTMLElement;
+      if (!timelineItem) return;
 
-      const cardCenterY_px = relativeTop + (relativeHeight / 2);
-      const cardCenterY = (cardCenterY_px / containerRect.height) * 100;
+      // offsetTop is relative to the offsetParent (.timeline, since it's position:relative)
+      const itemTop = timelineItem.offsetTop;
+      const cardOffsetInItem = cardEl.offsetTop; // card's offset within the timeline-item
+      const cardCenterY_px = itemTop + cardOffsetInItem + cardEl.offsetHeight / 2;
 
-      // Zig-Zag Logic:
-      // CSS nth-child order:
-      // SVG is child 1.
-      // Card 0 (i=0) is child 2 (Even) -> Right side (margin-left: 55%).
-      // Card 1 (i=1) is child 3 (Odd) -> Left side (margin-left: 10%).
+      // Convert pixel position to 0–100 percentage of container scrollHeight
+      const cardCenterY = (cardCenterY_px / containerHeight) * 100;
 
-      const isRight = i % 2 === 0; // i=0 -> Right, i=1 -> Left
-      const targetX = isRight ? 72 : 28; // Aim for center of cards (approx 27.5 and 72.5)
+      // Zig-Zag side logic:
+      // SVG is the 1st child of .timeline, so .timeline-item at index 0 is nth-child(2) = even → right side.
+      // i=0 → Right (margin-left: 55%, card width 35% → center ≈ 72.5%)
+      // i=1 → Left  (margin-left: 10%, card width 35% → center ≈ 27.5%)
+      const isRight = i % 2 === 0;
+      const targetX = isRight ? 72 : 28;
 
-      // Draw straight line to the point
       d += ` L ${targetX} ${cardCenterY}`;
-
-      lastX = targetX;
-      lastY = cardCenterY;
     });
-
-    // Continue off the bottom to center - REMOVED per user request
-    // d += ` L 50 100`;
 
     return d;
   }
-
-
-
 }

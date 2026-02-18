@@ -12,11 +12,11 @@
       <span class="name">Aditi Upadhyay</span>
     </div>
     <nav class="navigation">
-      <a href="#" class="nav-link active">Home</a>
-      <a href="#" class="nav-link">Roots</a>
-      <a href="#" class="nav-link">Journey</a>
-      <a href="#" class="nav-link">Tools</a>
-      <a href="#" class="nav-link">Builds</a>
+      <a href="#" class="nav-link active" (click)="scrollTo($event, 'top')">Home</a>
+      <a href="#" class="nav-link" (click)="scrollTo($event, 'roots')">Roots</a>
+      <a href="#" class="nav-link" (click)="scrollTo($event, 'journey')">Journey</a>
+      <a href="#" class="nav-link" (click)="scrollTo($event, 'tools')">Tools</a>
+      <a href="#" class="nav-link" (click)="scrollTo($event, 'builds')">Builds</a>
     </nav>
   </header>
 
