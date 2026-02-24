@@ -1,4 +1,4 @@
-<div class="tech-stack-container">
+<div class="tech-stack-container" id="tools">
     <div class="section-header">
         <h2>Tech ToolBox</h2>
         <p>Here are some of the technologies I have worked with:</p>
@@ -7,11 +7,12 @@
     <div class="tech-container">
         <div class="md:w-1/4">
             <div class="card">
-                <div (click)="selectCategory(category)" class="bubbly-tab snap-center shrink-0" *ngFor="let category of categories" [ngClass]="{'active': activeCategory === category}">
+                <div (click)="selectCategory(category)" class="bubbly-tab snap-center shrink-0"
+                    *ngFor="let category of categories" [ngClass]="{'active': activeCategory === category}">
                     <span class="material-symbols-outlined">{{category.icon}}</span>
                     <span>{{category.name}}</span>
                 </div>
-                
+
             </div>
 
         </div>
@@ -19,7 +20,7 @@
             <div class="tab-content">
                 <div class="grid grid-cols-2 lg:grid-cols-3 gap-6">
 
-                    <div class="skill-card" *ngFor="let skill of activeCategory.skills" >
+                    <div class="skill-card" *ngFor="let skill of activeCategory.skills">
                         <div
                             class="w-16 h-16 bg-[#ffdfd6] rounded-2xl flex items-center justify-center mb-4 shadow-inner">
                             <i [ngClass]="skill.icon"></i>

@@ -11,7 +11,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
   styleUrls: ["./app.component.scss"],
 })
 export class AppComponent implements OnInit {
-  comment:string = "";
+  comment: string = "";
   ngOnInit() {
     // Initial scroll check
     this.onWindowScroll();
@@ -106,6 +106,18 @@ export class AppComponent implements OnInit {
     link.href = 'assets/resume.pdf';
     link.download = 'Aditi_Resume.pdf'; // rename on download
     link.click();
+  }
+
+  scrollTo(event: Event, sectionId: string) {
+    event.preventDefault();
+    if (sectionId === 'top') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      const el = document.getElementById(sectionId);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
   }
 
 }
