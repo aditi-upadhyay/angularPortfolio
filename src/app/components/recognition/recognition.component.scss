@@ -20,7 +20,7 @@
 
 .party-popper {
   margin-bottom: 1rem;
-  
+
   .icon {
     font-size: 3rem;
     color: #facc15; // Yellow-400
@@ -57,16 +57,27 @@
   display: flex;
   align-items: center;
   gap: 2.5rem;
-  
+
   // Transition for hover effect (optional)
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+
   &:hover {
     transform: translateY(-5px);
     box-shadow: 0 35px 60px -15px rgba(0, 0, 0, 0.12);
   }
 
+  @media (max-width: 1200px) {
+    max-width: 65%;
+    padding: 2.5rem 3rem;
+  }
+
+  @media (max-width: 968px) {
+    max-width: 85%;
+    padding: 2rem 2.5rem;
+  }
+
   @media (min-width: 768px) {
-    padding: 3rem 4rem; // More breathing room on desktop
+    padding: 3rem 4rem;
   }
 }
 
@@ -122,7 +133,7 @@
   line-height: 1.6;
   margin: 0;
   max-width: 400px; // Prevent lines from getting too long
-  
+
   .highlight {
     font-weight: 700;
     color: #334155; // Darker slate
@@ -144,17 +155,17 @@
   margin-top: 1.5rem;
   box-shadow: 0 10px 15px -3px rgba(234, 179, 8, 0.3);
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  
+
   &:hover {
     transform: translateY(-3px) scale(1.02);
     box-shadow: 0 20px 25px -5px rgba(234, 179, 8, 0.4);
     filter: brightness(1.05);
   }
-  
+
   &:active {
     transform: translateY(0) scale(0.98);
   }
-  
+
   span {
     font-size: 1.5rem;
   }
@@ -181,11 +192,11 @@
     align-items: center;
     text-align: center;
   }
-  
+
   .trophy-box {
     width: 100px;
     height: 100px;
-    
+
     .trophy-icon {
       font-size: 3.5rem;
     }
@@ -194,7 +205,7 @@
   .award-title {
     font-size: 1.75rem;
   }
-  
+
   .award-description {
     font-size: 1rem;
   }
@@ -202,6 +213,13 @@
 
 /* --- Animation --- */
 @keyframes pop {
-  0%, 100% { transform: rotate(-15deg) scale(1); }
-  50% { transform: rotate(-5deg) scale(1.1); }
+
+  0%,
+  100% {
+    transform: rotate(-15deg) scale(1);
+  }
+
+  50% {
+    transform: rotate(-5deg) scale(1.1);
+  }
 }

@@ -149,10 +149,13 @@ export class CareerComponent implements AfterViewInit, OnDestroy {
     const timelineEl = document.querySelector('.timeline') as HTMLElement;
     if (!timelineEl) return;
 
+    const isMobile = window.innerWidth <= 768;
+
     // Update SVG height to match the actual rendered content height
     const svg = path.ownerSVGElement;
     if (svg) {
       svg.setAttribute('height', `${timelineEl.scrollHeight}`);
+      svg.setAttribute('width', `${timelineEl.clientWidth}`);
     }
 
     // ✅ FIX 2: Guard against zero-height container (layout not ready)
@@ -176,8 +179,22 @@ export class CareerComponent implements AfterViewInit, OnDestroy {
     this.scrollHandler = () => {
       const rect = timelineEl.getBoundingClientRect();
       const windowHeight = window.innerHeight;
-      const progress = Math.min(1, Math.max(0, (windowHeight - rect.top) / rect.height));
-      path.style.strokeDashoffset = `${length * (1 - progress)}`;
+
+      // Calculate progress: 0 when it first enters view, 1 when it's fully visible/scrolled past
+      // For mobile, we might want it to start drawing even earlier or faster.
+      const entryThreshold = isMobile ? windowHeight * 0.9 : windowHeight * 0.8;
+      const exitThreshold = isMobile ? windowHeight * 0.1 : 0;
+
+      const totalArea = windowHeight - exitThreshold;
+      const currentPos = windowHeight - rect.top;
+
+      // Progress calculation: enters at entryThreshold, fully drawn when scrolled significantly
+      // On mobile, the vertical line is tall, so we want the "fill" to feel synchronized with the cards.
+      const progress = Math.min(1.1, Math.max(0, currentPos / rect.height));
+
+      // Ensure strokeDashoffset doesn't go negative, but reaches 0
+      const finalOffset = length * (1 - Math.min(1, progress));
+      path.style.strokeDashoffset = `${finalOffset}`;
     };
 
     window.addEventListener('scroll', this.scrollHandler);
@@ -196,6 +213,7 @@ export class CareerComponent implements AfterViewInit, OnDestroy {
     if (!cards.length) return '';
 
     const containerHeight = container.scrollHeight;
+    const isMobile = window.innerWidth <= 768;
 
     // ✅ Guard — if height is 0, layout isn't ready yet
     if (containerHeight === 0) return '';
@@ -203,7 +221,7 @@ export class CareerComponent implements AfterViewInit, OnDestroy {
     // SVG coordinate space: X is 0–100, Y is 0–100 (percentage of container scrollHeight).
     // Use offsetTop (layout-relative, scroll-independent) instead of getBoundingClientRect()
     // to get stable positions that don't change as the user scrolls.
-    const startX = 50;
+    const startX = isMobile ? 5.1 : 50;
     let d = `M ${startX} 0`;
 
     cards.forEach((card, i) => {
@@ -221,11 +239,7 @@ export class CareerComponent implements AfterViewInit, OnDestroy {
       const cardCenterY = (cardCenterY_px / containerHeight) * 100;
 
       // Zig-Zag side logic:
-      // SVG is the 1st child of .timeline, so .timeline-item at index 0 is nth-child(2) = even → right side.
-      // i=0 → Right (margin-left: 55%, card width 35% → center ≈ 72.5%)
-      // i=1 → Left  (margin-left: 10%, card width 35% → center ≈ 27.5%)
-      const isRight = i % 2 === 0;
-      const targetX = isRight ? 72 : 28;
+      const targetX = isMobile ? 5.1 : (i % 2 === 0 ? 72 : 28);
 
       d += ` L ${targetX} ${cardCenterY}`;
     });

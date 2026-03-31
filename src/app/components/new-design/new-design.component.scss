@@ -17,12 +17,12 @@ $yellow: #ffd93d;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  
+
 }
+
 body {
   overflow-x: hidden;
-  background: none
-  // linear-gradient(135deg, #fff5f3 0%, #ffe8e8 100%);
+  background: none // linear-gradient(135deg, #fff5f3 0%, #ffe8e8 100%);
 }
 
 
@@ -97,7 +97,7 @@ body {
   font-weight: 500;
   position: relative;
   transition: all 0.3s ease;
-  
+
   &.active {
     color: $text-dark;
     font-weight: 600;
@@ -151,6 +151,7 @@ body {
     opacity: 0;
     transform: translateY(30px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -183,9 +184,12 @@ body {
 }
 
 @keyframes colorPulse {
-  0%, 100% {
+
+  0%,
+  100% {
     opacity: 1;
   }
+
   50% {
     opacity: 0.85;
   }
@@ -202,7 +206,7 @@ body {
     color: $teal-primary;
     font-weight: 600;
     position: relative;
-    
+
     &::after {
       content: '';
       position: absolute;
@@ -266,6 +270,7 @@ body {
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
@@ -277,10 +282,57 @@ body {
   justify-content: center;
   align-items: center;
   animation: fadeIn 1s ease-out 0.3s backwards;
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    width: 320px;
+    height: 320px;
+    background: radial-gradient(circle, rgba($primary-coral, 0.15) 0%, transparent 70%);
+    border-radius: 50%;
+    z-index: -1;
+    animation: pulseGlow 4s ease-in-out infinite;
+
+    @media (max-width: 968px) {
+      width: 240px;
+      height: 240px;
+    }
+
+    @media (max-width: 480px) {
+      width: 180px;
+      height: 180px;
+    }
+  }
 
   img {
-    opacity: 0;
-    visibility: hidden;
+    width: clamp(160px, 30vw, 320px);
+    height: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.1));
+    transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    opacity: 1;
+    /* Fix for visibility */
+    visibility: visible;
+    /* Fix for visibility */
+
+    &:hover {
+      transform: scale(1.05) translateY(-10px);
+    }
+  }
+}
+
+@keyframes pulseGlow {
+
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+
+  50% {
+    transform: scale(1.2);
+    opacity: 0.8;
   }
 }
 
@@ -288,6 +340,7 @@ body {
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -313,10 +366,11 @@ body {
 // Sticky Avatar
 .sticky-avatar {
   position: fixed;
-  --avatar-size: 500px; /* Default initial size */
+  --avatar-size: 500px;
+  /* Default initial size */
   width: var(--avatar-size);
   height: var(--avatar-size);
-  
+
   /* 
      Positioning strategy: Always use 'top' for vertical position to allow smooth transition.
      Initial: Centered vertically (50% - half height).
@@ -324,15 +378,16 @@ body {
   */
   top: calc(50% - (var(--avatar-size) / 2));
   right: 10%;
-  
+
   z-index: 90;
   pointer-events: none;
-  
+
   /* Transition top, right, and size smoothly */
-  transition: 
+  transition:
     top 0.6s cubic-bezier(0.25, 1, 0.5, 1),
     right 0.6s cubic-bezier(0.25, 1, 0.5, 1),
-    width 0.1s linear, /* Size updates are frequent via JS, keep snappy or let JS handle strictly */
+    width 0.1s linear,
+    /* Size updates are frequent via JS, keep snappy or let JS handle strictly */
     height 0.1s linear;
 
   &.scrolled {
@@ -355,28 +410,39 @@ body {
 }
 
 @keyframes floatAvatar {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-15px); }
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-15px);
+  }
 }
 
 .avatar-bubble {
   position: absolute;
-  top: 20%; /* Position relative to avatar container */
-  left: -20px; /* Pop out to the left */
+  top: 20%;
+  /* Position relative to avatar container */
+  left: -20px;
+  /* Pop out to the left */
   transform: translateX(-100%);
-  
+
   background: white;
   padding: 0.8rem 1.5rem;
   border-radius: 20px 20px 0 20px;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
   font-weight: 800;
   white-space: nowrap;
-  opacity: 0; /* Hidden initially */
+  opacity: 0;
+  /* Hidden initially */
   transition: opacity 0.3s ease, transform 0.3s ease;
-  pointer-events: auto; /* Clickable if needed */
+  pointer-events: auto;
+  /* Clickable if needed */
   font-size: 0.95rem;
   color: #1a1a2e;
-  border: 1px solid rgba(0,0,0,0.05);
+  border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 // Show bubble when scrolled
@@ -415,9 +481,11 @@ body {
   0% {
     transform: translate(0, 0) rotate(var(--rot));
   }
+
   50% {
     transform: translate(10px, -15px) rotate(calc(var(--rot) + 2deg));
   }
+
   100% {
     transform: translate(0, 0) rotate(var(--rot));
   }

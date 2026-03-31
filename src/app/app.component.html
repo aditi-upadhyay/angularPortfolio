@@ -11,13 +11,20 @@
       <div class="avatar">AU</div>
       <span class="name">Aditi Upadhyay</span>
     </div>
-    <nav class="navigation">
+    <button class="menu-toggle" (click)="toggleMenu()" [class.active]="isMenuOpen">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </button>
+
+    <nav class="navigation" [class.open]="isMenuOpen">
       <a href="#" class="nav-link active" (click)="scrollTo($event, 'top')">Home</a>
       <a href="#" class="nav-link" (click)="scrollTo($event, 'roots')">Roots</a>
       <a href="#" class="nav-link" (click)="scrollTo($event, 'journey')">Journey</a>
       <a href="#" class="nav-link" (click)="scrollTo($event, 'tools')">Tools</a>
       <a href="#" class="nav-link" (click)="scrollTo($event, 'builds')">Builds</a>
     </nav>
+    <div class="nav-overlay" *ngIf="isMenuOpen" (click)="toggleMenu()"></div>
   </header>
 
   <!-- Main Hero Section -->

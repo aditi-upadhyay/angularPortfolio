@@ -12,6 +12,11 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 })
 export class AppComponent implements OnInit {
   comment: string = "";
+  isMenuOpen: boolean = false;
+
+  toggleMenu() {
+    this.isMenuOpen = !this.isMenuOpen;
+  }
   ngOnInit() {
     // Initial scroll check
     this.onWindowScroll();
@@ -110,6 +115,7 @@ export class AppComponent implements OnInit {
 
   scrollTo(event: Event, sectionId: string) {
     event.preventDefault();
+    this.isMenuOpen = false;
     if (sectionId === 'top') {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } else {

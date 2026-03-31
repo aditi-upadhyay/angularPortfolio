@@ -17,12 +17,12 @@ $yellow: #ffd93d;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  
+
 }
+
 body {
   overflow-x: hidden;
-  background: none
-  // linear-gradient(135deg, #fff5f3 0%, #ffe8e8 100%);
+  background: none // linear-gradient(135deg, #fff5f3 0%, #ffe8e8 100%);
 }
 
 
@@ -46,8 +46,19 @@ body {
   align-items: center;
   padding: 2rem 6rem;
   flex-shrink: 0;
+  z-index: 100;
+
+  @media (max-width: 1024px) {
+    padding: 2rem 4rem;
+  }
 
   @media (max-width: 768px) {
+    padding: 1.5rem 2rem;
+  }
+
+  @media (max-width: 480px) {
+    flex-direction: row;
+    gap: 1.5rem;
     padding: 1.5rem 2rem;
   }
 }
@@ -84,10 +95,80 @@ body {
 .navigation {
   display: flex;
   gap: 2.5rem;
+  z-index: 101;
 
-  @media (max-width: 768px) {
+  @media (max-width: 1024px) {
     gap: 1.5rem;
   }
+
+  @media (max-width: 768px) {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 280px;
+    height: 100vh;
+    background: white;
+    flex-direction: column;
+    padding: 6rem 2rem;
+    gap: 2rem;
+    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.05);
+    transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+
+    &.open {
+      right: 0;
+    }
+  }
+}
+
+.menu-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 30px;
+  height: 21px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 102;
+
+  @media (max-width: 768px) {
+    display: flex;
+  }
+
+  .bar {
+    width: 100%;
+    height: 3px;
+    background-color: $text-dark;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+  }
+
+  &.active {
+    .bar:nth-child(1) {
+      transform: translateY(9px) rotate(45deg);
+    }
+
+    .bar:nth-child(2) {
+      opacity: 0;
+    }
+
+    .bar:nth-child(3) {
+      transform: translateY(-9px) rotate(-45deg);
+    }
+  }
+}
+
+.nav-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(4px);
+  z-index: 100;
+  animation: fadeIn 0.3s ease;
 }
 
 .nav-link {
@@ -97,7 +178,12 @@ body {
   font-weight: 500;
   position: relative;
   transition: all 0.3s ease;
-  
+
+  @media (max-width: 768px) {
+    font-size: 1.25rem;
+    width: fit-content;
+  }
+
   &.active {
     color: $text-dark;
     font-weight: 600;
@@ -128,17 +214,30 @@ body {
 // Hero Content
 .hero-content {
   display: grid;
-  grid-template-columns: 2fr 1fr;
+  grid-template-columns: 1.5fr 1fr;
   gap: 4rem;
   align-items: center;
   flex: 1;
   padding: 0 6rem 2rem;
   max-width: 100%;
 
+  @media (max-width: 1200px) {
+    grid-template-columns: 1.2fr 1fr;
+    gap: 2rem;
+    padding: 0 4rem 2rem;
+  }
+
   @media (max-width: 968px) {
     grid-template-columns: 1fr;
-    gap: 3rem;
-    padding: 0 2rem 2rem;
+    text-align: center;
+    gap: 2rem;
+    padding: 2rem 2rem 4rem;
+    justify-items: center;
+  }
+
+  @media (max-width: 480px) {
+    padding: 0 1.5rem 4rem;
+    gap: 2rem;
   }
 }
 
@@ -151,6 +250,7 @@ body {
     opacity: 0;
     transform: translateY(30px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -183,9 +283,12 @@ body {
 }
 
 @keyframes colorPulse {
-  0%, 100% {
+
+  0%,
+  100% {
     opacity: 1;
   }
+
   50% {
     opacity: 0.85;
   }
@@ -198,11 +301,20 @@ body {
   margin-bottom: 2.5rem;
   max-width: 500px;
 
+  @media (max-width: 968px) {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 1.05rem;
+  }
+
   .interactive-text {
     color: $teal-primary;
     font-weight: 600;
     position: relative;
-    
+
     &::after {
       content: '';
       position: absolute;
@@ -266,6 +378,7 @@ body {
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
@@ -277,10 +390,53 @@ body {
   justify-content: center;
   align-items: center;
   animation: fadeIn 1s ease-out 0.3s backwards;
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    width: 320px;
+    height: 320px;
+    background: radial-gradient(circle, rgba($primary-coral, 0.15) 0%, transparent 70%);
+    border-radius: 50%;
+    z-index: -1;
+    animation: pulseGlow 4s ease-in-out infinite;
+
+    @media (max-width: 968px) {
+      width: 240px;
+      height: 240px;
+    }
+
+    @media (max-width: 480px) {
+      width: 180px;
+      height: 180px;
+    }
+  }
 
   img {
-    opacity: 0;
-    visibility: hidden;
+    width: clamp(160px, 30vw, 320px);
+    height: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.1));
+    transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+
+    &:hover {
+      transform: scale(1.05) translateY(-10px);
+    }
+  }
+}
+
+@keyframes pulseGlow {
+
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+
+  50% {
+    transform: scale(1.2);
+    opacity: 0.8;
   }
 }
 
@@ -288,6 +444,7 @@ body {
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -313,10 +470,11 @@ body {
 // Sticky Avatar
 .sticky-avatar {
   position: fixed;
-  --avatar-size: 500px; /* Default initial size */
+  --avatar-size: 500px;
+  /* Default initial size */
   width: var(--avatar-size);
   height: var(--avatar-size);
-  
+
   /* 
      Positioning strategy: Always use 'top' for vertical position to allow smooth transition.
      Initial: Centered vertically (50% - half height).
@@ -324,15 +482,16 @@ body {
   */
   top: calc(50% - (var(--avatar-size) / 2));
   right: 10%;
-  
+
   z-index: 90;
   pointer-events: none;
-  
+
   /* Transition top, right, and size smoothly */
-  transition: 
+  transition:
     top 0.6s cubic-bezier(0.25, 1, 0.5, 1),
     right 0.6s cubic-bezier(0.25, 1, 0.5, 1),
-    width 0.1s linear, /* Size updates are frequent via JS, keep snappy or let JS handle strictly */
+    width 0.1s linear,
+    /* Size updates are frequent via JS, keep snappy or let JS handle strictly */
     height 0.1s linear;
 
   &.scrolled {
@@ -355,28 +514,39 @@ body {
 }
 
 @keyframes floatAvatar {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-15px); }
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-15px);
+  }
 }
 
 .avatar-bubble {
   position: absolute;
-  top: 20%; /* Position relative to avatar container */
-  left: -20px; /* Pop out to the left */
+  top: 20%;
+  /* Position relative to avatar container */
+  left: -20px;
+  /* Pop out to the left */
   transform: translateX(-100%);
-  
+
   background: white;
   padding: 0.8rem 1.5rem;
   border-radius: 20px 20px 0 20px;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
   font-weight: 800;
   white-space: nowrap;
-  opacity: 0; /* Hidden initially */
+  opacity: 0;
+  /* Hidden initially */
   transition: opacity 0.3s ease, transform 0.3s ease;
-  pointer-events: auto; /* Clickable if needed */
+  pointer-events: auto;
+  /* Clickable if needed */
   font-size: 0.95rem;
   color: #1a1a2e;
-  border: 1px solid rgba(0,0,0,0.05);
+  border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 // Show bubble when scrolled
@@ -415,9 +585,11 @@ body {
   0% {
     transform: translate(0, 0) rotate(var(--rot));
   }
+
   50% {
     transform: translate(10px, -15px) rotate(calc(var(--rot) + 2deg));
   }
+
   100% {
     transform: translate(0, 0) rotate(var(--rot));
   }
@@ -580,12 +752,8 @@ body {
 }
 
 @media (max-width: 480px) {
-  .navigation {
-    display: none;
-  }
-
   .hero-container {
-    padding: 1rem 1.5rem;
+    padding: 0;
   }
 
   .polaroid-card {
