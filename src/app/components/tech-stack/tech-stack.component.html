@@ -7,7 +7,7 @@
     <div class="tech-container">
         <div class="md:w-1/4">
             <div class="card">
-                <div (click)="selectCategory(category)" class="bubbly-tab snap-center shrink-0"
+                <div (click)="selectCategory(category)" class="bubbly-tab select-none"
                     *ngFor="let category of categories" [ngClass]="{'active': activeCategory === category}">
                     <span class="material-symbols-outlined">{{category.icon}}</span>
                     <span>{{category.name}}</span>
@@ -18,16 +18,14 @@
         </div>
         <div class="dynamic-container">
             <div class="tab-content">
-                <div class="grid grid-cols-2 lg:grid-cols-3 gap-6">
+                <div
+                    class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4 md:gap-6">
 
                     <div class="skill-card" *ngFor="let skill of activeCategory.skills">
-                        <div
-                            class="w-16 h-16 bg-[#ffdfd6] rounded-2xl flex items-center justify-center mb-4 shadow-inner">
+                        <div class="skill-icon-container">
                             <i [ngClass]="skill.icon"></i>
-
-                            <!-- <span class="material-symbols-outlined text-4xl text-[#ff8a7a]">{{skill.icon}}</span> -->
                         </div>
-                        <h4 class="font-bold text-slate-800">{{skill.name}}</h4>
+                        <h4>{{skill.name}}</h4>
 
                     </div>
                 </div>
