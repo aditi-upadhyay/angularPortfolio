@@ -386,10 +386,9 @@ body {
 
 // Visual Content
 .visual-content {
-  display: flex;
+  display: none;
   justify-content: center;
   align-items: center;
-  animation: fadeIn 1s ease-out 0.3s backwards;
   position: relative;
 
   &::before {
@@ -811,9 +810,10 @@ body {
   }
 
   .visual-content {
+    display: flex;
     order: -1;
     margin-bottom: 1rem;
-    
+
     img {
       width: clamp(180px, 35vw, 280px);
     }
@@ -827,6 +827,10 @@ body {
 
   .hero-content {
     padding: 3rem 1.5rem;
+  }
+
+  .visual-content {
+    display: flex;
   }
 }
 
@@ -853,7 +857,7 @@ body {
   .main-heading {
     font-size: 2rem;
   }
-  
+
   .header {
     padding: 1rem;
   }
