@@ -3,7 +3,7 @@
   height: auto;
   width: 100%;
   padding: 4rem 0;
-  overflow: hidden; // Prevent horizontal scroll
+  overflow: visible;
 }
 
 .zigzag-line {
@@ -19,8 +19,9 @@
 .timeline-item {
   position: relative;
   width: 35%;
-  margin-bottom: 6rem; // More spacing
+  margin-bottom: 6rem;
   z-index: 10;
+  transition: all 0.3s ease;
 }
 
 // Left side cards (Odd children: 1st, 3rd...)
@@ -31,16 +32,78 @@
 // Right side cards (Even children: 2nd, 4th...)
 .timeline-item:nth-child(even) {
   margin-left: 55%;
-  margin-top: 4rem; // Offset to create the zig-zag flow vertically
+  margin-top: 4rem;
+}
+
+// Desktop & Large Screens (Default)
+@media (min-width: 1025px) {
+  .timeline-item {
+    width: 35%;
+  }
+}
+
+// Tablet View
+@media (max-width: 1024px) and (min-width: 769px) {
+  .timeline-item {
+    width: 42%;
+  }
+
+  .timeline-item:nth-child(odd) {
+    margin-left: 5%;
+  }
+
+  .timeline-item:nth-child(even) {
+    margin-left: 53%;
+  }
+}
+
+// Mobile View
+@media (max-width: 768px) {
+  .timeline {
+    padding: 2rem 1rem 2rem 3.5rem; // Restore original padding
+  }
+
+  .timeline-item {
+    width: 100%;
+    margin-left: 0 !important;
+    margin-bottom: 3rem;
+    margin-top: 0 !important;
+    position: relative;
+
+    &::before {
+      content: '';
+      position: absolute;
+      left: -2.3rem; // Aligned with X=5.1%
+      top: 50%;
+      width: 14px;
+      height: 14px;
+      background: #ff9a9e;
+      border: 3px solid white;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 15;
+      box-shadow: 0 0 10px rgba(255, 154, 158, 0.5);
+    }
+  }
+
+  .zigzag-line {
+    display: block;
+    left: 0;
+    width: 100%;
+  }
+
+  .card {
+    padding: 1.5rem;
+  }
 }
 
 .card {
   background: white;
-  border-radius: 24px; // Large rounded corners
+  border-radius: 24px;
   padding: 2rem;
-  box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.08); // Soft, deep shadow
+  box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.08);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  border: 1px solid rgba(0, 0, 0, 0.02); // Very subtle border
+  border: 1px solid rgba(0, 0, 0, 0.02);
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
@@ -52,15 +115,14 @@
   }
 }
 
-/* --- Card Header: Date Pill --- */
 .card-header {
   display: flex;
   justify-content: flex-start;
 }
 
 .date-pill {
-  background-color: #f3e8ff; // Purple-100 (light purple bg)
-  color: #7e22ce; // Purple-700 (deep purple text)
+  background-color: #f3e8ff;
+  color: #7e22ce;
   font-size: 0.85rem;
   font-weight: 700;
   padding: 0.5rem 1rem;
@@ -68,30 +130,27 @@
   letter-spacing: 0.05em;
 }
 
-/* --- Card Body --- */
 .card-body {
   h3 {
     margin: 0 0 0.5rem 0;
-    color: #1e293b; // Slate-800
+    color: #1e293b;
     font-size: 1.5rem;
-    font-weight: 800; // Extra bold
+    font-weight: 800;
     line-height: 1.2;
   }
 
   .company {
     font-weight: 600;
-    color: #64748b; // Slate-500
+    color: #64748b;
     margin: 0 0 1rem 0;
     font-size: 1rem;
   }
 
   .description {
     font-size: 1rem;
-    color: #475569; // Slate-600
+    color: #475569;
     line-height: 1.6;
     margin: 0;
-
-    // Limits lines to keep cards uniform height if needed
     display: -webkit-box;
     -webkit-line-clamp: 3;
     line-clamp: 3;
@@ -100,16 +159,15 @@
   }
 }
 
-/* --- Card Footer: Action --- */
 .card-footer {
-  margin-top: auto; // Pushes footer to bottom
+  margin-top: auto;
 }
 
 .know-more-btn {
   background: none;
   border: none;
   padding: 0;
-  color: #3b82f6; // Blue-500
+  color: #3b82f6;
   font-weight: 600;
   font-size: 1rem;
   display: flex;
@@ -124,8 +182,8 @@
   }
 
   &:hover {
-    gap: 0.75rem; // Expands gap on hover
-    color: #2563eb; // Blue-600
+    gap: 0.75rem;
+    color: #2563eb;
 
     .arrow-icon {
       transform: translateX(2px);
@@ -143,56 +201,6 @@
   @media (max-width: 768px) {
     stroke-width: 6px;
     filter: none;
-  }
-}
-
-
-
-/* Responsive */
-@media (max-width: 1024px) {
-  .timeline-item {
-    width: 45%;
-  }
-}
-
-@media (max-width: 768px) {
-  .timeline {
-    padding: 2rem 1rem 2rem 3.5rem; // Adjusted padding
-    overflow: hidden;
-  }
-
-  .timeline-item {
-    width: 100%;
-    margin-left: 0 !important;
-    margin-bottom: 3rem;
-    margin-top: 0 !important;
-    position: relative;
-
-    &::before {
-      content: '';
-      position: absolute;
-      left: -2.3rem; // Aligned with the straight line (X=8%)
-      top: 50%;
-      width: 14px;
-      height: 14px;
-      background: #ff9a9e;
-      border: 3px solid white;
-      border-radius: 50%;
-      transform: translate(-50%, -50%);
-      z-index: 15;
-      box-shadow: 0 0 10px rgba(255, 154, 158, 0.5);
-    }
-  }
-
-  .zigzag-line {
-    display: block;
-    left: 0;
-    width: 100%;
-    max-width: 100vw;
-  }
-
-  .card {
-    padding: 1.5rem;
   }
 }
 

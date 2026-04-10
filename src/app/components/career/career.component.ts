@@ -205,7 +205,6 @@ export class CareerComponent implements AfterViewInit, OnDestroy {
      GENERATE DYNAMIC PATH
   =========================== */
   generatePath(count: number) {
-    // ✅ Scope to .timeline .card to avoid picking up cards from other components
     const container = document.querySelector('.timeline') as HTMLElement;
     if (!container) return '';
 
@@ -213,33 +212,42 @@ export class CareerComponent implements AfterViewInit, OnDestroy {
     if (!cards.length) return '';
 
     const containerHeight = container.scrollHeight;
-    const isMobile = window.innerWidth <= 768;
+    const width = window.innerWidth;
+    const isMobile = width <= 768;
+    const isTablet = width > 768 && width <= 1024;
 
-    // ✅ Guard — if height is 0, layout isn't ready yet
     if (containerHeight === 0) return '';
 
-    // SVG coordinate space: X is 0–100, Y is 0–100 (percentage of container scrollHeight).
-    // Use offsetTop (layout-relative, scroll-independent) instead of getBoundingClientRect()
-    // to get stable positions that don't change as the user scrolls.
-    const startX = isMobile ? 5.1 : 50;
+    // Synchronized with SCSS:
+    // Mobile: Line at 8%
+    // Tablet: Midpoints of cards (Odd: 26%, Even: 74%)
+    // Desktop: Midpoints of cards (Odd: 27.5%, Even: 72.5%)
+
+    let startX = 50;
+    if (isMobile) startX = 5.1;
+    else if (isTablet) startX = 50; // Start at center for desktop/tablet zig-zag
+
     let d = `M ${startX} 0`;
 
     cards.forEach((card, i) => {
       const cardEl = card as HTMLElement;
-      // Walk up to find the .timeline-item parent, then use its offsetTop
       const timelineItem = cardEl.closest('.timeline-item') as HTMLElement;
       if (!timelineItem) return;
 
-      // offsetTop is relative to the offsetParent (.timeline, since it's position:relative)
       const itemTop = timelineItem.offsetTop;
-      const cardOffsetInItem = cardEl.offsetTop; // card's offset within the timeline-item
+      const cardOffsetInItem = cardEl.offsetTop;
       const cardCenterY_px = itemTop + cardOffsetInItem + cardEl.offsetHeight / 2;
-
-      // Convert pixel position to 0–100 percentage of container scrollHeight
       const cardCenterY = (cardCenterY_px / containerHeight) * 100;
 
-      // Zig-Zag side logic:
-      const targetX = isMobile ? 5.1 : (i % 2 === 0 ? 72 : 28);
+      let targetX;
+      if (isMobile) {
+        targetX = 5.1;
+      } else if (isTablet) {
+        // Adjust tablet midpoints if needed, but for now matching desktop-like flow
+        targetX = i % 2 === 0 ? 72 : 28;
+      } else {
+        targetX = i % 2 === 0 ? 72 : 28;
+      }
 
       d += ` L ${targetX} ${cardCenterY}`;
     });
